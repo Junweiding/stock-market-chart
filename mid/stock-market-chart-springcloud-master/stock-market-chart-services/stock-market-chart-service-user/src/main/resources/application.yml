@@ -1,0 +1,73 @@
+spring:
+  application:
+    name: eureka-client-service-user
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.format_sql: true
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/ibm_stock_market_chart?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    tomcat:
+      max-active: 4
+      min-idle: 2
+      initial-size: 2
+  zipkin:
+    base-url: http://127.0.0.1:9002/
+  sleuth:
+    sample:
+      probability: 1.0
+
+server:
+  port: 7001
+  servlet:
+    context-path: /user
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 5
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      management:
+        context-path: /user/actuator
+    health-check-url: http://127.0.0.1:${server.port}/user/actuator/health
+    status-page-url: http://127.0.0.1:${server.port}/user/actuator/info
+    home-page-url: http://127.0.0.1:${server.port}/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+logging:
+  file: admin-client.log #add open admin log monitor
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+
+feign:
+  hystrix:
+    enabled: true
