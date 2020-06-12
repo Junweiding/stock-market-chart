@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'pull git'
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-account', url: 'https://github.com/weijiawei123/eureka-server.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'af677054-adff-4722-a295-c2516fcb8b7e', url: 'https://github.com/Junweiding/stock-market-chart-springcloud-master.git']]])
             }
         } 
         stage('Package') {
